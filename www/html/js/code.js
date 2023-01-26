@@ -1,3 +1,4 @@
+// RESET LOCALHOST URL BEFORE PUSHING!!!!!!!!
 const urlBase = 'http://paradise7.ninja/LAMPAPI';
 const extension = 'php';
 // User Information from Database (userID is Primary Key)
@@ -211,6 +212,11 @@ function doRegister()
 
 	// This resets loginResult to empty. If login fails it will change this
 	document.getElementById("regResult").innerHTML = "";
+
+	if (password != document.getElementById("confirmPassword").value) {
+		document.getElementById("regResult").innerHTML = "H";
+		return;
+	}
 
 	// This is a variable that is compatible with JSON format
 	let tmp = {firstName:firstName,lastName:lastName,login:login,password:password};
