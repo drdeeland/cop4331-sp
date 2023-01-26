@@ -1,0 +1,153 @@
+body
+{
+    background-color: #171515;
+    font-family: 'Inter';
+    color: white;
+    text-align: center;
+    font-size: 32;
+}
+
+#title 
+{
+    font-size: 40px;
+    text-shadow: 0px 1px 2px black;
+}
+
+#loginDiv
+{
+    display: block;
+    background-color: #A41919;
+    padding: 15px 0 15px 0;
+    border-radius: 8px;
+}
+
+#boxBg 
+{
+    display: block;
+    background-color: #D9D9D9;
+    margin: 0 20% 0 20%;
+    padding: 20px 20px 20px 20px;
+}
+
+input[type="text"],input[type="password"]
+{
+    border-radius: 25px;
+    text-align: center;
+    width: 80%;
+    margin: 1% 0 1% 0;
+    font-size: 24px;
+}
+
+.primaryButton 
+{
+    display: block;
+    background-color: #A41919;
+    color:#D9D9D9;
+    border-radius: 10px;
+    width: 15%;
+    padding: 15 20 15 20;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-size: 24px;
+    position: relative;
+    transition: ease .5s;
+    left: 42%;
+}
+
+.primaryButton:hover 
+{
+    background-color: #D9D9D9;
+    color:#A41919;
+    outline: solid #A41919;
+}
+
+.secondaryButton
+{
+    display: block;
+    background-color: #D9D9D9;
+    color:#A41919;
+    outline: solid #A41919;
+    border-radius: 10px;
+    width: 15%;
+    padding: 15 20 15 20;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-size: 24px;
+    position: relative;
+    transition: ease .5s;
+    left: 42%;
+}
+
+.secondaryButton:hover 
+{
+    background-color: #A41919;
+    color: #D9D9D9;
+    outline: solid #A41919;
+}
+
+#center 
+{
+    text-align: center;
+}
+
+#tableHead
+{
+    text-align: center;
+    border: 1px solid #A41919;
+    border-radius: 0;
+    margin: 0 20% 0 20%;
+    background-color: #A41919;
+}
+
+.boxButton
+{
+    background-color: #A41919;
+    color: white;
+    padding: 10;
+    border-radius: 0px;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Inter';
+    /*outline: 6px solid #A41919;*/
+    transition: ease 180ms;
+    width: 100%;
+    height: 100%;
+}
+
+.boxButton:hover
+{
+    background-color: #D9D9D9;
+    color: #A41919;
+}
+
+#search
+{
+    border-radius: 0%;
+    outline: 6px solid #A41919;
+    width: 100%;
+}
+
+.contactEntry
+{
+    display: block;
+    background-color: #A41919;
+    padding: 5 10;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 24px;
+    margin: 5 0;
+}
+
+.contactName
+{
+    font-weight: bold;
+    font-size: 28px;
+}
+
+table 
+{
+    width: 100%;
+}

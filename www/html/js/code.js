@@ -197,3 +197,63 @@ function searchColor()
 	}
 
 }
+
+function doRegister()
+{
+	userId = 0;
+
+	// This gets the login and password from HTML File
+	firstName = document.getElementById("firstName").value;
+	lastName = document.getElementById("lastName").value;
+	let login = document.getElementById("regUsername").value;
+	let password = document.getElementById("regPassword").value;
+	//	var hash = md5( password );
+
+	// This resets loginResult to empty. If login fails it will change this
+	document.getElementById("regResult").innerHTML = "";
+
+	// This is a variable that is compatible with JSON format
+	let tmp = {firstName:firstName,lastName:lastName,login:login,password:password};
+	// var tmp = {login:login,password:hash};
+	let jsonPayload = JSON.stringify( tmp );
+	// Expected output: "{"firstName": userInput, "lastName": userInput, "login": userinput,"password": userinput}"
+
+	// This stores the url necessary to make an Http request with a php
+	let url = urlBase + '/Register.' + extension;
+
+	// Make request
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		// Listens for a change on the "readyState" property of the Http request
+		xhr.onreadystatechange = function()
+		{
+			// readyState = 0 means "request has not been sent"
+			// readyState = 4 means "complete and response received"
+			// status = 200 means the server reponse is ok
+			if (this.readyState == 4 && this.status == 200)
+			{
+				let jsonObject = JSON.parse( xhr.responseText );
+				userId = jsonObject.id;
+
+				// No user was found in database
+				if( userId < 1 )
+				{
+					document.getElementById("regResult").innerHTML = "User/Password combination incorrect";
+					return;
+				}
+
+				// inform user of success
+				document.getElementById("regResult").innerHTML = "User registered successfully";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("regResult").innerHTML = err.message;
+	}
+
+}
