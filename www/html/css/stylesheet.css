@@ -5,9 +5,10 @@ body
     color: white;
     text-align: center;
     font-size: 32;
+	overflow: hidden;
 }
 
-#title 
+#title
 {
     font-size: 40px;
     text-shadow: 0px 1px 2px black;
@@ -21,12 +22,14 @@ body
     border-radius: 8px;
 }
 
-#boxBg 
+#boxBg
 {
     display: block;
     background-color: #D9D9D9;
     margin: 0 20% 0 20%;
     padding: 20px 20px 20px 20px;
+    overflow: auto;
+    height: 50vh;
 }
 
 input[type="text"],input[type="password"]
@@ -38,7 +41,7 @@ input[type="text"],input[type="password"]
     font-size: 24px;
 }
 
-.primaryButton 
+.primaryButton
 {
     display: block;
     background-color: #A41919;
@@ -55,7 +58,7 @@ input[type="text"],input[type="password"]
     left: 42%;
 }
 
-.primaryButton:hover 
+.primaryButton:hover
 {
     background-color: #D9D9D9;
     color:#A41919;
@@ -80,14 +83,14 @@ input[type="text"],input[type="password"]
     left: 42%;
 }
 
-.secondaryButton:hover 
+.secondaryButton:hover
 {
     background-color: #A41919;
     color: #D9D9D9;
     outline: solid #A41919;
 }
 
-#center 
+#center
 {
     text-align: center;
 }
@@ -95,7 +98,7 @@ input[type="text"],input[type="password"]
 #tableHead
 {
     text-align: center;
-    border: 1px solid #A41919;
+    border: 2px solid #A41919;
     border-radius: 0;
     margin: 0 20% 0 20%;
     background-color: #A41919;
@@ -113,7 +116,7 @@ input[type="text"],input[type="password"]
     font-family: 'Inter';
     /*outline: 6px solid #A41919;*/
     transition: ease 180ms;
-    width: 100%;
+    width: 19vh;
     height: 100%;
 }
 
@@ -148,7 +151,7 @@ input[type="text"],input[type="password"]
     font-size: 28px;
 }
 
-table 
+table
 {
     width: 100%;
 }
