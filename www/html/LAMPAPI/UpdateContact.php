@@ -8,7 +8,7 @@ $userID = $inData["userID"];
 $name = $inData["name"];
 $phoneNum = $inData["phoneNum"];
 $email = $inData["email"];
-$id = $inData["id"];
+$contactID = $inData["contactID"];
 
 $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 // Check if the connection was successful or not
@@ -20,7 +20,7 @@ else
 {
     // Prepare & execute update from the Contacts table
     $stmt = $conn->prepare("UPDATE Contacts SET Name=?, Phone=?, Email=? WHERE ID=? AND UserID=?");
-    $stmt->bind_param("sssii", $name, $phoneNum, $email, $id, $userID);
+    $stmt->bind_param("sssii", $name, $phoneNum, $email, $contactID, $userID);
     $stmt->execute();
 
     // Close the connection & database

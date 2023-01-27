@@ -4,6 +4,7 @@
 	// Read in the information from the API request
 	$inData = getRequestInfo();
 
+  $contactID = $inData["contactID"];
 	$userID = $inData["userID"];	
 	$name = $inData["name"];
 	$phoneNum = $inData["phoneNum"];
@@ -18,8 +19,8 @@
 	else
 	{
 		// Prepare & execute deletion from the Contacts table
-		$stmt = $conn->prepare("DELETE FROM Contacts WHERE Name=? AND Phone=? AND Email=? AND UserID=?");
-		$stmt->bind_param("sssi", $name, $phoneNum, $email, $userID);
+		$stmt = $conn->prepare("DELETE FROM Contacts WHERE ID=? AND Name=? AND Phone=? AND Email=? AND UserID=?");
+		$stmt->bind_param("isssi", $contactID, $name, $phoneNum, $email, $userID);
 		$stmt->execute();
 		$nrows = $stmt->affected_rows;
 	  
