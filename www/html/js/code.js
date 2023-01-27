@@ -261,5 +261,42 @@ function doRegister()
 	{
 		document.getElementById("regResult").innerHTML = err.message;
 	}
+}
 
+let offset = 3;
+window.onscroll = function()
+{
+	if (window.innerHeight + window.scrollY >= document.body.offsetHeight)
+		offset += 3;
+}
+
+// I have no clue if this or the php file actually works lol
+function lazyLoading(offset)
+{
+	let colorList = "";
+
+	fetch("LazyLoading.php?offset=" + offset)
+		.then(response => response.json())
+		.then(data =>
+		{
+			if(data.length === 0)
+			{
+				// no contacts for this user
+				// do we want to put a message?
+			}
+			else
+			{
+				let contactList = document.getElementById("contact-list")
+				data.forEach(contact =>
+				{
+					let contactEntry = document.createElement("div");
+
+					boxBg.innerHTML = `<p class ="contactName">${contact.name}</p>
+											<p>${contact.phone}</p>
+											<p>${contact.email}</p>`;
+
+					contactList.appendChild(boxBg);
+				});
+			}
+		});
 }
