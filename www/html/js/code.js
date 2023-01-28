@@ -60,7 +60,7 @@ function doLogin()
 				// Saves the fact that you are logged in
 				saveCookie();
 				// Send to next page
-				window.location.href = "color.html";
+				window.location.href = "contacts.html";
 			}
 		};
 		xhr.send(jsonPayload);
@@ -201,7 +201,7 @@ function searchColor()
 
 function doRegister()
 {
-	userId = 0;
+	error = "";
 
 	// This gets the login and password from HTML File
 	firstName = document.getElementById("firstName").value;
@@ -211,10 +211,18 @@ function doRegister()
 	//	var hash = md5( password );
 
 	// This resets loginResult to empty. If login fails it will change this
-	document.getElementById("regResult").innerHTML = "";
+	// document.getElementById("regResult").innerHTML = "";
 
-	if (password != document.getElementById("confirmPassword").value) {
-		document.getElementById("regResult").innerHTML = "H";
+	if (password != document.getElementById("confirmPassword").value) 
+	{
+		document.getElementById("regResult").innerHTML = "Passwords do not match";
+		return;
+	}
+
+	// Restriction on Password length
+	if (password.length < 5)
+	{
+		document.getElementById("regResult").innerHTML = "Passwords need to be at least 5 characters long";
 		return;
 	}
 
@@ -242,16 +250,15 @@ function doRegister()
 			if (this.readyState == 4 && this.status == 200)
 			{
 				let jsonObject = JSON.parse( xhr.responseText );
-				userId = jsonObject.id;
-
-				// No user was found in database
-				if( userId < 1 )
+				error = jsonObject.error;
+				// This will be non-empty should there be an error
+				if (error != "")
 				{
-					document.getElementById("regResult").innerHTML = "User/Password combination incorrect";
+					document.getElementById("regResult").innerHTML = error;
 					return;
 				}
 
-				// inform user of success
+				// Inform user of success
 				document.getElementById("regResult").innerHTML = "User registered successfully";
 			}
 		};

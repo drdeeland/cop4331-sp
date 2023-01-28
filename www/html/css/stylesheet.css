@@ -44,7 +44,7 @@ input[type="text"],input[type="password"]
 .primaryButton
 {
     display: block;
-    background-color: #A41919;
+    background-color: #000000;
     color:#D9D9D9;
     border-radius: 10px;
     width: 15%;
@@ -68,9 +68,9 @@ input[type="text"],input[type="password"]
 .secondaryButton
 {
     display: block;
-    background-color: #D9D9D9;
-    color:#A41919;
-    outline: solid #A41919;
+    background-color: #000000;
+    color:#ffffff;
+    outline: solid #555555;
     border-radius: 10px;
     width: 15%;
     padding: 15 20 15 20;
@@ -85,13 +85,14 @@ input[type="text"],input[type="password"]
 
 .secondaryButton:hover
 {
-    background-color: #A41919;
+    background-color: #555555;
     color: #D9D9D9;
-    outline: solid #A41919;
+    outline: solid #000000;
 }
 
 #center
 {
+    transform: translateY(-100%);
     text-align: center;
 }
 

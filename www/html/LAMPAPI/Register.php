@@ -42,8 +42,8 @@
     // There is already a User with the requested Login
 		else
 		{
-			returnWithError($login, "Username is already in use");
-      $stmt->close();
+		  returnWithError($login, "Username is already in use");
+      	  $stmt->close();
 		  $conn->close();
 		}
 
