@@ -213,7 +213,7 @@ function doRegister()
 	// This resets loginResult to empty. If login fails it will change this
 	// document.getElementById("regResult").innerHTML = "";
 
-	if (password != document.getElementById("confirmPassword").value) 
+	if (password != document.getElementById("confirmPassword").value)
 	{
 		document.getElementById("regResult").innerHTML = "Passwords do not match";
 		return;
@@ -267,6 +267,40 @@ function doRegister()
 	catch(err)
 	{
 		document.getElementById("regResult").innerHTML = err.message;
+	}
+
+}
+
+function addContact()
+{
+	let userID = userId;
+	let newContactName = document.getElementById("name").value;
+	let newContactPhone = document.getElementById("phoneNum").value;
+	let newContactEmail = document.getElementById("email").value;
+	document.getElementById("contactAddResult").innerHTML = "";
+
+	let tmp = {name:newContactName, phoneNum:newContactPhone, email:newContactEmail, userID, userID};
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/AddContact.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("contactAddResult").innerHTML = err.message;
 	}
 
 }
