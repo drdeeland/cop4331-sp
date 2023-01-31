@@ -307,3 +307,51 @@ function addContact()
 	}
 
 }
+
+
+function searchContact()
+{
+	let srch = document.getElementById("search").value;
+	document.getElementById("contactSearchResult").innerHTML = "";
+
+	let contactList = "";
+
+	let tmp = {search:srch,userID:userId};
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/SearchContact.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				document.getElementById("boxBg").innerHTML = "";
+				document.getElementById("contactSearchResult").innerHTML = "Contact(s) have been retrieved";
+				let jsonObject = JSON.parse( xhr.responseText );
+
+				for( let i=0; i<jsonObject.results.length; i++ )
+				{
+					contactList += `<div class="contactEntry">
+								<p class="contactName">${jsonObject.results[i].name}</p>
+								<button type="button" id="edit" class="editButton">Edit</button>
+								<p>${jsonObject.results[i].phoneNum}</p>
+								<p>${jsonObject.results[i].email}</p>
+								</div>`;
+				}
+
+				document.getElementById("boxBg").innerHTML += contactList;
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("contactSearchResult").innerHTML = err.message;
+	}
+
+}
