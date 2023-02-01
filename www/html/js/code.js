@@ -6,6 +6,11 @@ let userId = 0;
 let firstName = "";
 let lastName = "";
 
+document.addEventListener('DOMContentLoaded', function()
+	{
+		readCookie();
+	}, false);
+
 function doLogin()
 {
 	userId = 0;
@@ -107,10 +112,11 @@ function readCookie()
 	{
 		window.location.href = "index.html";
 	}
-	else
-	{
-		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
-	}
+	// Kept below if we decide to display who is logged in eventually.
+	//else
+	//{
+		//document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
+	//}
 }
 
 function doLogout()
@@ -273,13 +279,12 @@ function doRegister()
 
 function addContact()
 {
-	let userID = userId;
 	let newContactName = document.getElementById("name").value;
 	let newContactPhone = document.getElementById("phoneNum").value;
 	let newContactEmail = document.getElementById("email").value;
 	document.getElementById("contactAddResult").innerHTML = "";
 
-	let tmp = {name:newContactName, phoneNum:newContactPhone, email:newContactEmail, userID, userID};
+	let tmp = {name:newContactName, phoneNum:newContactPhone, email:newContactEmail, userID:userId};
 	let jsonPayload = JSON.stringify( tmp );
 
 	let url = urlBase + '/AddContact.' + extension;
