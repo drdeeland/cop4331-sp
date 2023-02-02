@@ -1,0 +1,28 @@
+<html>
+<head>
+	<title>Paradise 7 Contact Manager</title>
+	<script type="text/javascript" src="js/md5.js"></script>
+	<script type="text/javascript" src="js/code.js"></script>
+    <link href="css/stylesheet.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
+</head>
+<body>
+
+	<img src="images/NinjaLogo.png" alt="a cartoon ninja" style="width: 10%">
+    <div id="boxBg">
+        <div id="loginDiv">
+			<span id="inner-title">Edit Contact Below</span>
+			<input type="text" id="name" placeholder="Name" /><br />
+    		<input type="text" id="phoneNum" placeholder="Phone Number" /><br />
+			<input type="text" id="email" placeholder="Email Address" /><br />
+			<var id="userID"></var>
+			<button type="button" id="regButton" class="primaryButton" onclick="addContact();"> Add New Contact </button>
+			<span id="contactAddResult"></span>
+		</div>
+	</div>
+	<div id="center">
+		<a href="contacts.html" class="secondaryButton">Back To Contact Manager</a>
+	</div>
+
+</body>
+</html>

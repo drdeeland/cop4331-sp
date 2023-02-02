@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function()
 		}
 		if(window.location.pathname == "/contacts.html")
 		{
-			homeContacts();
+			searchContact(true);
 		}
 	}, false);
 
@@ -136,81 +136,6 @@ function doLogout()
 	window.location.href = "index.html";
 }
 
-function addColor()
-{
-	let newColor = document.getElementById("colorText").value;
-	document.getElementById("colorAddResult").innerHTML = "";
-
-	let tmp = {color:newColor,userId,userId};
-	let jsonPayload = JSON.stringify( tmp );
-
-	let url = urlBase + '/AddColor.' + extension;
-
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function()
-		{
-			if (this.readyState == 4 && this.status == 200)
-			{
-				document.getElementById("colorAddResult").innerHTML = "Color has been added";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("colorAddResult").innerHTML = err.message;
-	}
-
-}
-
-function searchColor()
-{
-	let srch = document.getElementById("searchText").value;
-	document.getElementById("colorSearchResult").innerHTML = "";
-
-	let colorList = "";
-
-	let tmp = {search:srch,userId:userId};
-	let jsonPayload = JSON.stringify( tmp );
-
-	let url = urlBase + '/SearchColors.' + extension;
-
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function()
-		{
-			if (this.readyState == 4 && this.status == 200)
-			{
-				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
-				let jsonObject = JSON.parse( xhr.responseText );
-
-				for( let i=0; i<jsonObject.results.length; i++ )
-				{
-					colorList += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						colorList += "<br />\r\n";
-					}
-				}
-
-				document.getElementsByTagName("p")[0].innerHTML = colorList;
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("colorSearchResult").innerHTML = err.message;
-	}
-
-}
 
 function doRegister()
 {
@@ -321,7 +246,7 @@ function addContact()
 }
 
 
-function searchContact()
+function searchContact(home)
 {
 	let srch = document.getElementById("search").value;
 	document.getElementById("contactSearchResult").innerHTML = "";
@@ -342,14 +267,17 @@ function searchContact()
 			if (this.readyState == 4 && this.status == 200)
 			{
 				document.getElementById("boxBg").innerHTML = "";
-				document.getElementById("contactSearchResult").innerHTML = "Contact(s) have been retrieved";
+				if(!home) document.getElementById("contactSearchResult").innerHTML = "Contact(s) have been retrieved";
 				let jsonObject = JSON.parse( xhr.responseText );
-
+				
 				for( let i=0; i<jsonObject.results.length; i++ )
-				{
+				{	let jsonString = JSON.stringify(jsonObject.results[i]);
+					console.log("JSON object: " + jsonString);
 					contactList += `<div class="contactEntry">
 								<p class="contactName">${jsonObject.results[i].name}</p>
-								<button type="button" id="edit" class="editButton">Edit</button>
+								<button type="button" id="edit" class="editButton" 
+								onclick = 'editContact(${jsonString});'>Edit</button>
+		
 								<p>${jsonObject.results[i].phoneNum}</p>
 								<p>${jsonObject.results[i].email}</p>
 								</div>`;
@@ -367,48 +295,32 @@ function searchContact()
 
 }
 
-function homeContacts()
+
+
+// We know this id is in the database
+function editContact(id)
 {
-	let srch = "";
-	document.getElementById("contactSearchResult").innerHTML = "";
-	let contactList = "";
-
-	let tmp = {search:srch,userID:userId};
-	let jsonPayload = JSON.stringify( tmp );
-
-	let url = urlBase + '/SearchContact.' + extension;
-
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
+	
+	// Redirect to editcontact page
+	window.location.href = "editContact.html";
+	console.log("hiii");
+	window.onload = function()
 	{
-		xhr.onreadystatechange = function()
-		{
-			if (this.readyState == 4 && this.status == 200)
-			{
-				document.getElementById("boxBg").innerHTML = "";
-				let jsonObject = JSON.parse( xhr.responseText );
-				// If length is 0 tell them they currently have no contacts
-				for( let i=0; i<jsonObject.results.length; i++ )
-				{
-					contactList += `<div class="contactEntry">
-								<p class="contactName">${jsonObject.results[i].name}</p>
-								<button type="button" id="edit" class="editButton" onclick = >Edit</button>
-								<p>${jsonObject.results[i].phoneNum}</p>
-								<p>${jsonObject.results[i].email}</p>
-								</div>`;
-				}
+		console.log("Hellooo");
+		document.getElementById("name").value = id.name;
+	// document.getElementById("phoneNum") = id.phoneNum;
+	// document.getElementById("email") = id.email;
+	// document.getElementById("userID") = id.contactID;
+	
+	}
+	
+		
+	
+	
+}
 
-				document.getElementById("boxBg").innerHTML += contactList;
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("contactSearchResult").innerHTML = err.message;
-	}
+function updateContact()
+{
 
 }
 
