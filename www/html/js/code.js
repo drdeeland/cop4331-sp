@@ -8,7 +8,8 @@ let lastName = "";
 
 document.addEventListener('DOMContentLoaded', function()
 	{
-		if (window.location.pathname != "/index.html")
+		if (window.location.pathname != "/index.html" 
+		&& window.location.pathname != "/register.html" )
 		{
 			readCookie();
 		}
