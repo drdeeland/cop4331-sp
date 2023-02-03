@@ -319,7 +319,7 @@ function searchContact()
 				{	let jsonString = JSON.stringify(jsonObject.results[i]);
 					// Create html objects to throw them onto the page
 					contactList += `<div class="contactEntry" id=${jsonObject.results[i].contactID}>
-								<p class="contactName" id="${jsonObject.results[i].contactID}name" > ${jsonObject.results[i].name}</p>
+								<p class="contactName" id="${jsonObject.results[i].contactID}name" >${jsonObject.results[i].name}</p>
 								<button type="button" id="edit" class="editButton"
 								onclick = 'editContact(${jsonString});'>Edit</button>
 								<button type="button" id="delete" class="editButton"
@@ -374,7 +374,7 @@ function updateContact()
 function promptDelete(id)
 {
 	let text = "Are you sure you want to delete this contact?\nThis cannot be undone.";
-	if (confirm(text) == true) 
+	if (confirm(text) == true)
 	{
 		doDelete(id);
 	}
@@ -388,7 +388,7 @@ function doDelete(id)
 	let phone = document.getElementById(""+contactId+"phoneNum").innerHTML;
 	let mail = document.getElementById(""+contactId+"email").innerHTML;
 	// let contactInfo = doRetrieve(contactId);
-	// if (contactInfo == null) 
+	// if (contactInfo == null)
 	// {
 	// 	console.log("Error retrieving contact");
 	// 	return;
@@ -401,7 +401,7 @@ function doDelete(id)
 	let url = urlBase + '/DeleteContact.' + extension;
 
 	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
+	xhr.open("DELETE", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
@@ -448,7 +448,7 @@ function doRetrieve(id) {
 				// If nothing came back return to avoid error
 				if(jsonObject.results == null) return;
 
-				else 
+				else
 				{
 					console.log("Contact found: " + jsonObject.results[0]);
 					result = jsonObject.results[0];
