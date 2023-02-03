@@ -8,7 +8,7 @@ let lastName = "";
 
 document.addEventListener('DOMContentLoaded', function()
 	{
-		if (window.location.pathname != "/index.html" 
+		if (window.location.pathname != "/index.html"
 		&& window.location.pathname != "/register.html" )
 		{
 			readCookie();
@@ -234,14 +234,14 @@ function addContact()
 		document.getElementById("contactAddResult").innerHTML = "Invalid email format";
 		return;
 	}
-	
+
 	// Disallowing empty Contacts
 	if (newContactName == "" && newContactPhone == "" && newContactEmail == "")
 	{
 		document.getElementById("contactAddResult").innerHTML = "At least one field is required";
 		return;
 	}
-	
+
 	// Set default contact field to (None)
 	if (newContactPhone == "") newContactPhone = "(None)";
 	if (newContactPhone == "") newContactPhone = "(None)";
@@ -282,7 +282,7 @@ function addContact()
 function searchContact()
 {
 	let srch = document.getElementById("search").value;
-	// Save the html code to throw into BoxBg to give feedback 
+	// Save the html code to throw into BoxBg to give feedback
 	let contactSearchFeedBack = '<p style = "color:black" id="contactSearchResult"></p>';
 	document.getElementById("boxBg").innerHTML = contactSearchFeedBack;
 
@@ -306,7 +306,7 @@ function searchContact()
 				let jsonObject = JSON.parse( xhr.responseText );
 
 				// If what they typed in was not a space or an empty string, then we want to give feedback
-				if(srch != " " && srch != "") 
+				if(srch != " " && srch != "")
 				{
 					let resptext = ""
 					if(jsonObject.results == null) resptext = "No Contacts Found";
@@ -320,12 +320,12 @@ function searchContact()
 				{	let jsonString = JSON.stringify(jsonObject.results[i]);
 					// Create html objects to throw them onto the page
 					contactList += `<div class="contactEntry" id=${jsonObject.results[i].contactID}>
-								<p class="contactName">${jsonObject.results[i].name}</p>
-								<button type="button" id="edit" class="editButton" 
+								<p class="contactName" id="${jsonObject.results[i].contactID}name" > ${jsonObject.results[i].name}</p>
+								<button type="button" id="edit" class="editButton"
 								onclick = 'editContact(${jsonString});'>Edit</button>
-		
-								<p>${jsonObject.results[i].phoneNum}</p>
-								<p>${jsonObject.results[i].email}</p>
+
+								<p id= "${jsonObject.results[i].contactID}phoneNum" >${jsonObject.results[i].phoneNum}</p>
+								<p id= "${jsonObject.results[i].contactID}email" >${jsonObject.results[i].email}</p>
 								</div>`;
 				}
 				// Add list of boxes to page
@@ -346,7 +346,7 @@ function searchContact()
 // We know this id is in the database
 function editContact(id)
 {
-	
+
 	// Redirect to editcontact page
 	window.location.href = "editContact.html";
 	console.log("hiii");
@@ -357,16 +357,15 @@ function editContact(id)
 	// document.getElementById("phoneNum") = id.phoneNum;
 	// document.getElementById("email") = id.email;
 	// document.getElementById("userID") = id.contactID;
-	
+
 	}
-	
-		
-	
-	
+
+
+
+
 }
 
 function updateContact()
 {
 
 }
-
