@@ -374,7 +374,7 @@ function updateContact()
 function promptDelete(id)
 {
 	let text = "Are you sure you want to delete this contact?\nThis cannot be undone.";
-	if (confirm(text) == true)
+	if (confirm(text) == true) 
 	{
 		doDelete(id);
 	}
@@ -388,7 +388,7 @@ function doDelete(id)
 	let phone = document.getElementById(""+contactId+"phoneNum").innerHTML;
 	let mail = document.getElementById(""+contactId+"email").innerHTML;
 	// let contactInfo = doRetrieve(contactId);
-	// if (contactInfo == null)
+	// if (contactInfo == null) 
 	// {
 	// 	console.log("Error retrieving contact");
 	// 	return;
@@ -448,7 +448,7 @@ function doRetrieve(id) {
 				// If nothing came back return to avoid error
 				if(jsonObject.results == null) return;
 
-				else
+				else 
 				{
 					console.log("Contact found: " + jsonObject.results[0]);
 					result = jsonObject.results[0];
