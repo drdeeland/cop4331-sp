@@ -217,6 +217,22 @@ function addContact()
 	let newContactEmail = document.getElementById("email").value;
 	document.getElementById("contactAddResult").innerHTML = "";
 
+	if (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(newContactPhone));
+	else if(newContactPhone != "")
+	{
+		document.getElementById("contactAddResult").innerHTML = "Invalid Phone Number Format";
+		return;
+	}
+
+	if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(newContactEmail));
+	else if(newContactEmail != "")
+	{
+		document.getElementById("contactAddResult").innerHTML = "Invalid Email Format";
+		return;
+	}
+	
+	
+
 	let tmp = {name:newContactName, phoneNum:newContactPhone, email:newContactEmail, userID:userId};
 	let jsonPayload = JSON.stringify( tmp );
 
