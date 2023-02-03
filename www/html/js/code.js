@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function()
 		}
 		if(window.location.pathname == "/contacts.html")
 		{
-			searchContact(true);
+			searchContact();
 		}
 	}, false);
 
@@ -247,10 +247,12 @@ function addContact()
 }
 
 
-function searchContact(home)
+function searchContact()
 {
 	let srch = document.getElementById("search").value;
-	document.getElementById("contactSearchResult").innerHTML = "";
+	let contactSearchFeedBack = '<p style = "color:black" id="contactSearchResult"></p>';
+	document.getElementById("boxBg").innerHTML = contactSearchFeedBack;
+
 	let contactList = "";
 
 	let tmp = {search:srch,userID:userId};
@@ -267,10 +269,15 @@ function searchContact(home)
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("boxBg").innerHTML = "";
-				if(!home) document.getElementById("contactSearchResult").innerHTML = "Contact(s) have been retrieved";
 				let jsonObject = JSON.parse( xhr.responseText );
-				
+				if(srch != " " && srch != "") 
+				{
+					let resptext = ""
+					if(jsonObject.results == null) resptext = "No Contacts Found";
+					else resptext = "Contact(s) have been retrieved";
+					document.getElementById("contactSearchResult").innerHTML = resptext;
+				}
+				if(jsonObject.results == null) return;
 				for( let i=0; i<jsonObject.results.length; i++ )
 				{	let jsonString = JSON.stringify(jsonObject.results[i]);
 					console.log("JSON object: " + jsonString);

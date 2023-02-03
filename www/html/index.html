@@ -10,18 +10,15 @@
 
     <img src="images/NinjaLogo.png" alt="a cartoon ninja" style="width: 10%">
     <h1 id="title">Ninja Contact Manager</h1>
-    <div id="boxBg">
+    <div id="loginboxBg">
         <div id="loginDiv">
             <span id="inner-title">PLEASE LOG IN</span><br />
             <input type="text" id="loginName" placeholder="Username" /><br />
-            <input type="password" id="loginPassword" placeholder="Password"/><br />
+            <input type="password" id="loginPassword" placeholder="Password" onkeyup="if (event.keyCode === 13) { doLogin(); }" /><br />
             <button type="button" id="loginButton" class="primaryButton" onclick="doLogin();"> Login </button>
             <span id="loginResult"></span>
         </div>
-    </div>
-    <div id="center">
         <a href="register.html" class="secondaryButton">Register New User</a>
     </div>
-
 </body>
 </html>
