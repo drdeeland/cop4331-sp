@@ -177,7 +177,7 @@ table
 
     position: relative;
     float: right;
-    transform: translateY(-50%);
+    bottom: 30px;
 }
 
 .editButton:hover
