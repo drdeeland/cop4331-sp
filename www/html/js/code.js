@@ -215,8 +215,11 @@ function addContact()
 	let newContactName = document.getElementById("name").value;
 	let newContactPhone = document.getElementById("phoneNum").value;
 	let newContactEmail = document.getElementById("email").value;
+
+	// Reset contact response HTML
 	document.getElementById("contactAddResult").innerHTML = "";
 
+	// Regex to check Phone number
 	if (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(newContactPhone));
 	else if(newContactPhone != "")
 	{
@@ -224,15 +227,27 @@ function addContact()
 		return;
 	}
 
+	// Regex to check Email
 	if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(newContactEmail));
 	else if(newContactEmail != "")
 	{
-		document.getElementById("contactAddResult").innerHTML = "Invalid Email Format";
+		document.getElementById("contactAddResult").innerHTML = "Invalid email format";
 		return;
 	}
 	
+	// Disallowing empty Contacts
+	if (newContactName == "" && newContactPhone == "" && newContactEmail == "")
+	{
+		document.getElementById("contactAddResult").innerHTML = "At least one field is required";
+		return;
+	}
 	
+	// Set default contact field to (None)
+	if (newContactPhone == "") newContactPhone = "(None)";
+	if (newContactPhone == "") newContactPhone = "(None)";
+	if (newContactEmail == "") newContactEmail = "(None)";
 
+	// JSON payload and Server Query
 	let tmp = {name:newContactName, phoneNum:newContactPhone, email:newContactEmail, userID:userId};
 	let jsonPayload = JSON.stringify( tmp );
 
@@ -247,6 +262,7 @@ function addContact()
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
+				// Successful response, reset contact fields
 				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 				document.getElementById("name").value = "";
 				document.getElementById("phoneNum").value = "";
@@ -266,11 +282,13 @@ function addContact()
 function searchContact()
 {
 	let srch = document.getElementById("search").value;
+	// Save the html code to throw into BoxBg to give feedback 
 	let contactSearchFeedBack = '<p style = "color:black" id="contactSearchResult"></p>';
 	document.getElementById("boxBg").innerHTML = contactSearchFeedBack;
 
 	let contactList = "";
 
+	// Make JSON and request
 	let tmp = {search:srch,userID:userId};
 	let jsonPayload = JSON.stringify( tmp );
 
@@ -286,6 +304,8 @@ function searchContact()
 			if (this.readyState == 4 && this.status == 200)
 			{
 				let jsonObject = JSON.parse( xhr.responseText );
+
+				// If what they typed in was not a space or an empty string, then we want to give feedback
 				if(srch != " " && srch != "") 
 				{
 					let resptext = ""
@@ -293,11 +313,13 @@ function searchContact()
 					else resptext = "Contact(s) have been retrieved";
 					document.getElementById("contactSearchResult").innerHTML = resptext;
 				}
+				// If nothing came back return to avoid error
 				if(jsonObject.results == null) return;
+
 				for( let i=0; i<jsonObject.results.length; i++ )
 				{	let jsonString = JSON.stringify(jsonObject.results[i]);
-					console.log("JSON object: " + jsonString);
-					contactList += `<div class="contactEntry">
+					// Create html objects to throw them onto the page
+					contactList += `<div class="contactEntry" id=${jsonObject.results[i].contactID}>
 								<p class="contactName">${jsonObject.results[i].name}</p>
 								<button type="button" id="edit" class="editButton" 
 								onclick = 'editContact(${jsonString});'>Edit</button>
@@ -306,7 +328,7 @@ function searchContact()
 								<p>${jsonObject.results[i].email}</p>
 								</div>`;
 				}
-
+				// Add list of boxes to page
 				document.getElementById("boxBg").innerHTML += contactList;
 			}
 		};
