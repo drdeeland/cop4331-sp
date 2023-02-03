@@ -1,4 +1,3 @@
-// RESET LOCALHOST URL BEFORE PUSHING!!!!!!!!
 const urlBase = 'http://paradise7.ninja/LAMPAPI';
 const extension = 'php';
 // User Information from Database (userID is Primary Key)
@@ -323,6 +322,8 @@ function searchContact()
 								<p class="contactName" id="${jsonObject.results[i].contactID}name" > ${jsonObject.results[i].name}</p>
 								<button type="button" id="edit" class="editButton"
 								onclick = 'editContact(${jsonString});'>Edit</button>
+								<button type="button" id="delete" class="editButton"
+								onclick = 'promptDelete(${jsonObject.results[i].contactID});'>Delete</button>
 
 								<p id= "${jsonObject.results[i].contactID}phoneNum" >${jsonObject.results[i].phoneNum}</p>
 								<p id= "${jsonObject.results[i].contactID}email" >${jsonObject.results[i].email}</p>
@@ -368,4 +369,98 @@ function editContact(id)
 function updateContact()
 {
 
+}
+
+function promptDelete(id)
+{
+	let text = "Are you sure you want to delete this contact?\nThis cannot be undone.";
+	if (confirm(text) == true) 
+	{
+		doDelete(id);
+	}
+}
+
+function doDelete(id)
+{
+	console.log("Delet func");
+	let contactId = id;
+	let name = document.getElementById(""+contactId+"name").innerHTML;
+	let phone = document.getElementById(""+contactId+"phoneNum").innerHTML;
+	let mail = document.getElementById(""+contactId+"email").innerHTML;
+	// let contactInfo = doRetrieve(contactId);
+	// if (contactInfo == null) 
+	// {
+	// 	console.log("Error retrieving contact");
+	// 	return;
+	// }
+	// console.log(contactInfo);
+
+	let tmp = {contactID:contactId,userID:userId,name:name,phoneNum:phone,email:mail};
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/DeleteContact.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				document.getElementById("" + id).innerHTML = "Contact deleted!";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("" + id).innerHTML = "Error deleting contact. Please try again";
+		console.log(err);
+	}
+}
+
+// currently not working properly. retrieves an object, but if called by another function, the object cannot be accessed.
+// likely an error with the object getting retrieved in a nested function (xhr.onreadystatechange) and getting lost in the return statements
+function doRetrieve(id) {
+	console.log("retrieve func");
+	let contactId = id;
+	console.log("contact: " + contactId + " user: " + userId);
+
+	// Make JSON and request
+	let tmp = {contactID:contactId,userID:userId};
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/RetrieveContact.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	var result;
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				let jsonObject = JSON.parse( xhr.responseText );
+				// If nothing came back return to avoid error
+				if(jsonObject.results == null) return;
+
+				else 
+				{
+					console.log("Contact found: " + jsonObject.results[0]);
+					result = jsonObject.results[0];
+				}
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		console.log(err);
+		return null;
+	}
+	return result;
 }
