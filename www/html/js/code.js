@@ -321,7 +321,7 @@ function searchContact()
 					contactList += `<div class="contactEntry" id=${jsonObject.results[i].contactID}>
 								<p class="contactName" id="${jsonObject.results[i].contactID}name" >${jsonObject.results[i].name}</p>
 								<button type="button" id="edit" class="editButton"
-								onclick = 'editContact(${jsonString});'>Edit</button>
+								onclick = 'editContact(${jsonObject.results[i].contactID});'>Edit</button>
 								<button type="button" id="delete" class="editButton"
 								onclick = 'promptDelete(${jsonObject.results[i].contactID});'>Delete</button>
 
@@ -347,27 +347,93 @@ function searchContact()
 // We know this id is in the database
 function editContact(id)
 {
-
-	// Redirect to editcontact page
-	window.location.href = "editContact.html";
-	console.log("hiii");
-	window.onload = function()
-	{
-		console.log("Hellooo");
-		document.getElementById("name").value = id.name;
-	// document.getElementById("phoneNum") = id.phoneNum;
-	// document.getElementById("email") = id.email;
-	// document.getElementById("userID") = id.contactID;
-
-	}
-
-
-
-
+	let contactId = id;
+	let name = document.getElementById(""+contactId+"name").innerHTML;
+	let phoneNum = document.getElementById(""+contactId+"phoneNum").innerHTML;
+	let email = document.getElementById(""+contactId+"email").innerHTML;
+	document.getElementById("editPopup").style.display = "block";
+	if (phoneNum == "(None)") phoneNum = "";
+	if (email == "(None)") email = "";
+	document.getElementById("boxBg").style.display = "none";
+	document.getElementById("editName").value = name;
+	document.getElementById("editPhoneNum").value = phoneNum;
+	document.getElementById("editEmail").value = email;
+	document.getElementById("hiddenID").innerHTML = contactId;
 }
 
 function updateContact()
 {
+	let contactId = document.getElementById("hiddenID").innerHTML;
+	let newContactName = document.getElementById("editName").value;
+	let newContactPhone = document.getElementById("editPhoneNum").value;
+	let newContactEmail = document.getElementById("editEmail").value;
+
+	// Reset contact response HTML
+	document.getElementById("contactEditResult").innerHTML = "";
+
+	if (newContactName == document.getElementById(""+contactId+"name").innerHTML &&
+		newContactPhone == document.getElementById(""+contactId+"phoneNum").innerHTML &&
+		newContactEmail == document.getElementById(""+contactId+"email").innerHTML)
+	{
+		document.getElementById("contactEditResult").innerHTML = "No changes made";
+	}
+
+	// Regex to check Phone number
+	if (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(newContactPhone));
+	else if(newContactPhone != "")
+	{
+		document.getElementById("contactEditResult").innerHTML = "Invalid Phone Number Format";
+		return;
+	}
+
+	// Regex to check Email
+	if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(newContactEmail));
+	else if(newContactEmail != "")
+	{
+		document.getElementById("contactEditResult").innerHTML = "Invalid email format";
+		return;
+	}
+
+	// Disallowing empty Contacts
+	if (newContactName == "" && newContactPhone == "" && newContactEmail == "")
+	{
+		document.getElementById("contactEditResult").innerHTML = "At least one field is required";
+		return;
+	}
+
+	// Set default contact field to (None)
+	if (newContactPhone == "") newContactPhone = "(None)";
+	if (newContactPhone == "") newContactPhone = "(None)";
+	if (newContactEmail == "") newContactEmail = "(None)";
+
+	// JSON payload and Server Query
+	let tmp = {contactID:contactId, name:newContactName, phoneNum:newContactPhone, email:newContactEmail, userID:userId};
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/UpdateContact.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				// Successful response, reset contact fields
+				document.getElementById("contactEditResult").innerHTML = "Contact has been updated";
+				document.getElementById(""+contactId+"name").innerHTML = newContactName;
+				document.getElementById(""+contactId+"phoneNum").innerHTML = newContactPhone;
+				document.getElementById(""+contactId+"email").innerHTML = newContactEmail;
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("contactEditResult").innerHTML = err.message;
+	}
 
 }
 
@@ -463,4 +529,12 @@ function doRetrieve(id) {
 		return null;
 	}
 	return result;
+}
+
+function closeEdit()
+{
+	document.getElementById("boxBg").style.display = "block";
+	document.getElementById("contactEditResult").innerHTML = "";
+	document.getElementById("editPopup").style.display = "none";
+
 }

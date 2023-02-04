@@ -22,9 +22,25 @@
             </tr>
         </table>
     </div>
+
+    <div id=editPopup>
+    	<div id="loginDiv">
+			<span id="inner-title">Edit Contact</span>
+			<input type="text" id="editName" placeholder="Name" /><br />
+    		<input type="text" id="editPhoneNum" placeholder="Phone Number" /><br />
+			<input type="text" id="editEmail" placeholder="Email Address" /><br />
+			<p id="hiddenID">TEST</p>
+			<button type="button" id="regButton" class="primaryButton" onclick="updateContact();"> Update Contact </button>
+			<button type="button" id="regButton" class="primaryButton" onclick="closeEdit();"> Exit Edit </button>
+			<span id="contactEditResult"></span>
+		</div>
+	</div>
+
     <div id="boxBg">
         <p style = "color:black" id="contactSearchResult"></p>
     </div>
+
+
 
 </body>
 </html>
