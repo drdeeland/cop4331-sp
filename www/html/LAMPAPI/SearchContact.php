@@ -17,7 +17,7 @@
 	else
 	{
 		// Prepare & execute searching the Contacts table
-		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (Name LIKE ? OR Phone LIKE ? OR Email LIKE ?) AND UserID=?");
+		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (Name LIKE ? OR Phone LIKE ? OR Email LIKE ?) AND UserID=? ORDER BY Name");
 		$contactName = "%" . $search . "%";
 		$stmt->bind_param("sssi", $contactName, $contactName, $contactName, $userID);
 		$stmt->execute();
