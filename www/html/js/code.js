@@ -4,6 +4,7 @@ const extension = 'php';
 let userId = 0;
 let firstName = "";
 let lastName = "";
+let load = 0;
 
 document.addEventListener('DOMContentLoaded', function()
 	{
@@ -278,20 +279,46 @@ function addContact()
 }
 
 
+if (window.location.pathname === "/contacts.html")
+{
+	document.addEventListener('DOMContentLoaded', function()
+	{
+		var boxBg = document.getElementById("boxBg");
+
+		boxBg.addEventListener("scroll", function()
+		{
+			if (boxBg.scrollTop + boxBg.clientHeight >= boxBg.scrollHeight && load != -1)
+			{
+				load++;
+				searchContact();
+			}
+		});
+
+	}, false);
+}
+
+function searchContactCall()
+{
+	load = 0;
+	let contactSearchFeedBack = '<p style = "color:black" id="contactSearchResult"></p>';
+	document.getElementById("boxBg").innerHTML = contactSearchFeedBack;
+	searchContact();
+}
+
 function searchContact()
 {
 	let srch = document.getElementById("search").value;
 	// Save the html code to throw into BoxBg to give feedback
 	let contactSearchFeedBack = '<p style = "color:black" id="contactSearchResult"></p>';
-	document.getElementById("boxBg").innerHTML = contactSearchFeedBack;
+	// document.getElementById("boxBg").innerHTML = contactSearchFeedBack;
 
 	let contactList = "";
 
 	// Make JSON and request
-	let tmp = {search:srch,userID:userId};
+	let tmp = {search:srch,userID:userId, load:load};
 	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/SearchContact.' + extension;
+	let url = urlBase + '/LazyLoadSearch.' + extension;
 
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -313,7 +340,11 @@ function searchContact()
 					document.getElementById("contactSearchResult").innerHTML = resptext;
 				}
 				// If nothing came back return to avoid error
-				if(jsonObject.results == null) return;
+				if(jsonObject.results == null)
+				{
+					load = -1;
+					return;
+				}
 
 				for( let i=0; i<jsonObject.results.length; i++ )
 				{	let jsonString = JSON.stringify(jsonObject.results[i]);
@@ -440,7 +471,7 @@ function updateContact()
 function promptDelete(id)
 {
 	let text = "Are you sure you want to delete this contact?\nThis cannot be undone.";
-	if (confirm(text) == true) 
+	if (confirm(text) == true)
 	{
 		doDelete(id);
 	}
@@ -454,7 +485,7 @@ function doDelete(id)
 	let phone = document.getElementById(""+contactId+"phoneNum").innerHTML;
 	let mail = document.getElementById(""+contactId+"email").innerHTML;
 	// let contactInfo = doRetrieve(contactId);
-	// if (contactInfo == null) 
+	// if (contactInfo == null)
 	// {
 	// 	console.log("Error retrieving contact");
 	// 	return;
@@ -514,7 +545,7 @@ function doRetrieve(id) {
 				// If nothing came back return to avoid error
 				if(jsonObject.results == null) return;
 
-				else 
+				else
 				{
 					console.log("Contact found: " + jsonObject.results[0]);
 					result = jsonObject.results[0];

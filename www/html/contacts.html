@@ -17,7 +17,7 @@
         <table>
             <tr>
                 <th><button type="button" id="logout" class="boxButton" onclick="doLogout();">Logout</button></th>
-                <th><input type="text" id="search"  placeholder="Search for Contact..." onkeyup="if (event.keyCode === 13) { searchContact(); }"></th>
+                <th><input type="text" id="search"  placeholder="Search for Contact..." onkeyup="if (event.keyCode === 13) { searchContactCall(); }"></th>
                 <th> <button type="button" id="addContact" class="boxButton" onclick="location.href='addContact.html'">Add Contact</button></th>
             </tr>
         </table>
@@ -25,7 +25,7 @@
 
     <div id=editPopup>
     	<div id="loginDiv">
-			<span id="inner-title">Edit Contact</span>
+			<span id="inner-title">Edit Contact Below</span>
 			<input type="text" id="editName" placeholder="Name" /><br />
     		<input type="text" id="editPhoneNum" placeholder="Phone Number" /><br />
 			<input type="text" id="editEmail" placeholder="Email Address" /><br />
