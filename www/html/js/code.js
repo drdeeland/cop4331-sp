@@ -278,7 +278,7 @@ function addContact()
 
 }
 
-
+let loading = false;
 if (window.location.pathname === "/contacts.html")
 {
 	document.addEventListener('DOMContentLoaded', function()
@@ -287,8 +287,9 @@ if (window.location.pathname === "/contacts.html")
 
 		boxBg.addEventListener("scroll", function()
 		{
-			if (boxBg.scrollTop + boxBg.clientHeight >= boxBg.scrollHeight && load != -1)
+			if (boxBg.scrollTop + boxBg.clientHeight >= boxBg.scrollHeight - 75 && load != -1 && !loading)
 			{
+				loading = true;
 				load++;
 				searchContact();
 			}
@@ -300,6 +301,7 @@ if (window.location.pathname === "/contacts.html")
 function searchContactCall()
 {
 	load = 0;
+	loading = true;
 	let contactSearchFeedBack = '<p style = "color:black" id="contactSearchResult"></p>';
 	document.getElementById("boxBg").innerHTML = contactSearchFeedBack;
 	searchContact();
@@ -362,6 +364,7 @@ function searchContact()
 				}
 				// Add list of boxes to page
 				document.getElementById("boxBg").innerHTML += contactList;
+				loading = false;
 			}
 		};
 		xhr.send(jsonPayload);
