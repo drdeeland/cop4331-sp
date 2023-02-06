@@ -335,7 +335,7 @@ function searchContact()
 				if(srch != " " && srch != "")
 				{
 					let resptext = ""
-					if(jsonObject.results == null) resptext = "No Contacts Found";
+					if(jsonObject.results == null && load == 0) resptext = "No Contacts Found";
 					else resptext = "Contact(s) have been retrieved";
 					document.getElementById("contactSearchResult").innerHTML = resptext;
 				}
